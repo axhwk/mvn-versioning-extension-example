@@ -1,0 +1,31 @@
+<configuration xmlns="https://github.com/qoomon/maven-git-versioning-extension"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="https://github.com/qoomon/maven-git-versioning-extension https://qoomon.github.io/maven-git-versioning-extension/configuration-7.0.0.xsd">
+    <refs considerTagsOnBranches="true">
+        <!-- Release (release-X.Y.Z) branches will become X.Y.Z-TIMESTAMP for this release -->
+        <ref type="branch">
+            <pattern><![CDATA[release-(?<releaseVersion>[0-9].*)]]></pattern>
+            <version>${ref.releaseVersion}-${commit.timestamp.datetime}</version>
+        </ref>
+        <!-- Hotfix (hotfix-X.Y.Z) branches will become X.Y.Z-TIMESTAMP for this hotfix release -->
+        <ref type="branch">
+            <pattern><![CDATA[hotfix-(?<hotfixVersion>[0-9].*)]]></pattern>
+            <version>${ref.hotfixVersion}-${commit.timestamp.datetime}</version>
+        </ref>
+        <!-- Every branch which is not master or main will match this and becomes whatever the pom.xml says -->
+        <ref type="branch">
+            <pattern><![CDATA[(^(?!.*(master|main)).*$)]]></pattern>
+            <version>${version}</version>
+        </ref>
+        <!-- If nothing has matched so far a version tag might be matched -->
+        <ref type="tag">
+            <pattern><![CDATA[(?<tagVersion>.*)]]></pattern>
+            <version>${ref.tagVersion}</version>
+        </ref>
+    </refs>
+    
+    <!-- optional fallback configuration in case of no matching ref configuration, just use what the pom.xml says -->
+    <rev>
+        <version>${version}</version>
+    </rev>
+</configuration>

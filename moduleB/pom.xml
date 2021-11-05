@@ -19,5 +19,9 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.example</groupId>
+      <artifactId>moduleA</artifactId>
+    </dependency>
   </dependencies>
 </project>
